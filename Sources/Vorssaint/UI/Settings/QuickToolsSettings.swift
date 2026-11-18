@@ -8,6 +8,8 @@ struct QuickToolsSettings: View {
     @ObservedObject private var l10n = L10n.shared
     @ObservedObject private var features = FeatureRuntime.shared
     @ObservedObject private var permissions = Permissions.shared
+    @ObservedObject private var airPodsMute = AirPodsMuteService.shared
+    @AppStorage(DefaultsKey.micMuteAirPodsEnabled) private var airPodsMuteEnabled = false
     @ObservedObject private var micMute = MicMuteService.shared
     @ObservedObject private var quickToggles = QuickTogglesService.shared
     @ObservedObject private var launcher = QuickLauncherService.shared
@@ -165,6 +167,19 @@ struct QuickToolsSettings: View {
                     Text(l10n.s.micMuteCaption)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    Toggle("AirPods Press to Mute", isOn: $airPodsMuteEnabled)
+                        .onChange(of: airPodsMuteEnabled) { _, enabled in
+                            if enabled { airPodsMute.requestEnable() } else { airPodsMute.sync() }
+                        }
+                    Text("Mute all microphones while another app uses a mic. AirPods controls briefly share the built-in microphone during that time; audio is discarded. No microphone is opened while idle. Outside supported audio sessions, stem presses retain their normal media controls.")
+                        .font(.caption).foregroundStyle(.secondary)
+                    if airPodsMuteEnabled {
+                        Text(airPodsMute.status).font(.caption).foregroundStyle(.secondary)
+                        if permissions.microphone != .granted {
+                            Button("Allow Microphone", action: airPodsMute.requestEnable)
+                            Button("Microphone Settings", action: Permissions.shared.openMicrophoneSettings)
+                        }
+                    }
                     Toggle(l10n.s.micMuteMenuBarToggle, isOn: $micMenuBarIndicator)
                     Text(l10n.s.micMuteMenuBarCaption)
                         .font(.caption)

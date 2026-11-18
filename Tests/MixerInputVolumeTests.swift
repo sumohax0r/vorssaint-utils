@@ -50,6 +50,7 @@ enum MixerInputVolumeContract {
         static let micMuteSavedVolume = "legacyVolume"
         static let micMuteShortcutEnabled = "shortcutEnabled"
         static let micMuteShortcut = "shortcut"
+        static let micMuteAirPodsEnabled = "airPodsEnabled"
     }
     enum Defaults { static func sanitizedPreferredInputDeviceUID(_ s: String?) -> String? { s } }
     enum UserDefaults {
@@ -64,6 +65,17 @@ enum MixerInputVolumeContract {
             func set(_ v: Any, forKey k: String) { values[k] = v }
             func removeObject(forKey k: String) { values[k] = nil }
         }
+    }
+    final class AirPodsMuteService {
+        static let shared = AirPodsMuteService()
+        var mirrored: Bool?
+        func sync() {}
+        func stop() {}
+        func mirror(_ muted: Bool) { mirrored = muted }
+    }
+    final class SessionActivity {
+        static let shared = SessionActivity()
+        var isActive = true
     }
     final class QuickToolHotkey {
         var onPress: (() -> Void)?
@@ -295,6 +307,16 @@ enum MixerInputVolumeContract {
             DispatchQueue.drain()
             return m
         }
+        HAL.reset()
+        HAL.mute[10] = 0
+        let mic = MicMuteService.shared
+        check(!mic.applyAirPodsMute(true), "AirPods gesture requires the opt-in")
+        UserDefaults.standard.set(true, forKey: DefaultsKey.micMuteAirPodsEnabled)
+        check(mic.applyAirPodsMute(true) && mic.isMuted && AirPodsMuteService.shared.mirrored == true,
+              "AirPods gesture applies hardware mute and mirrors its published state")
+        check(mic.applyAirPodsMute(false) && !mic.isMuted && HAL.mute[10] == 0,
+              "AirPods unmute restores the device")
+        DispatchQueue.drain()
         HAL.reset()
         HAL.levels[HAL.key(10)] = 0.4
         var m = manager()

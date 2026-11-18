@@ -625,6 +625,7 @@ enum DefaultsKey {
     static let screenOCRDetectQRCodes = "screenOCRDetectQRCodes" // QR content wins over OCR text
     static let micMuteShortcutEnabled = "micMuteShortcutEnabled"
     static let micMuteShortcut = "micMuteShortcut"
+    static let micMuteAirPodsEnabled = "micMuteAirPodsEnabled"
     static let quitAppsShortcutEnabled = "quitAppsShortcutEnabled"
     static let quitAppsShortcut = "quitAppsShortcut"
     static let quitAppsExceptFrontShortcutEnabled = "quitAppsExceptFrontShortcutEnabled"
@@ -1870,6 +1871,7 @@ enum Defaults {
         DefaultsKey.screenOCRRemoveLineBreaks: false,
         DefaultsKey.screenOCRDetectQRCodes: true,
         DefaultsKey.micMuteShortcutEnabled: false,
+        DefaultsKey.micMuteAirPodsEnabled: false,
         DefaultsKey.micMuteShortcut: GlobalShortcut.micMuteDefault.storageValue,
         DefaultsKey.quitAppsShortcutEnabled: false,
         DefaultsKey.quitAppsShortcut: GlobalShortcut.quitAllDefault.storageValue,
