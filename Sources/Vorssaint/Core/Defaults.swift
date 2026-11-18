@@ -623,9 +623,9 @@ enum DefaultsKey {
     static let screenOCRShortcut = "screenOCRShortcut"
     static let screenOCRRemoveLineBreaks = "screenOCRRemoveLineBreaks"
     static let screenOCRDetectQRCodes = "screenOCRDetectQRCodes" // QR content wins over OCR text
-    static let micMuteAirPodsEnabled = "micMuteAirPodsEnabled"
     static let micMuteShortcutEnabled = "micMuteShortcutEnabled"
     static let micMuteShortcut = "micMuteShortcut"
+    static let micMuteAirPodsEnabled = "micMuteAirPodsEnabled"
     static let quitAppsShortcutEnabled = "quitAppsShortcutEnabled"
     static let quitAppsShortcut = "quitAppsShortcut"
     static let quitAppsExceptFrontShortcutEnabled = "quitAppsExceptFrontShortcutEnabled"
