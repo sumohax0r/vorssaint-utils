@@ -623,6 +623,26 @@ enum DefaultsKey {
     static let screenOCRShortcut = "screenOCRShortcut"
     static let screenOCRRemoveLineBreaks = "screenOCRRemoveLineBreaks"
     static let screenOCRDetectQRCodes = "screenOCRDetectQRCodes" // QR content wins over OCR text
+    static let dictationEnabled = "dictationEnabled"
+    static let dictationModel = "dictationModel"
+    static let dictationStreaming = "dictationStreaming"
+    static let dictationMicrophone = "dictationMicrophone"
+    static let dictationKeepReady = "dictationKeepReady"
+    static let dictationRecordingLimitMinutes = "dictationRecordingLimitMinutes"
+    static let dictationShortcut = "dictationShortcut"
+    static let dictationToggleMode = "dictationToggleMode"
+    static let dictationRightControl = "dictationRightControl"
+    static let dictationMouseButtons = "dictationMouseButtons"
+    static let dictationMouseTriggersMigrated = "dictationMouseTriggersMigrated"
+    static let dictationMouseButton = "dictationMouseButton"
+    static let dictationAutoSend = "dictationAutoSend"
+    static let dictationSoundStyle = "dictationSoundStyle"
+    static let dictationSounds = "dictationSounds"
+    static let dictationMuteOutput = "dictationMuteOutput"
+    static let dictationSoftwareBluetooth = "dictationSoftwareBluetooth"
+    static let dictationLowerOutput = "dictationLowerOutput"
+    static let dictationOutputLevel = "dictationOutputLevel"
+    static let dictationOutputFade = "dictationOutputFade"
     static let micMuteShortcutEnabled = "micMuteShortcutEnabled"
     static let micMuteShortcut = "micMuteShortcut"
     static let quitAppsShortcutEnabled = "quitAppsShortcutEnabled"
@@ -1869,6 +1889,26 @@ enum Defaults {
         DefaultsKey.screenOCRShortcut: GlobalShortcut.screenOCRDefault.storageValue,
         DefaultsKey.screenOCRRemoveLineBreaks: false,
         DefaultsKey.screenOCRDetectQRCodes: true,
+        DefaultsKey.dictationEnabled: false,
+        DefaultsKey.dictationModel: "",
+        DefaultsKey.dictationStreaming: false,
+        DefaultsKey.dictationMicrophone: "",
+        DefaultsKey.dictationKeepReady: false,
+        DefaultsKey.dictationRecordingLimitMinutes: 5,
+        DefaultsKey.dictationShortcut: "control+option:2",
+        DefaultsKey.dictationToggleMode: false,
+        DefaultsKey.dictationRightControl: false,
+        DefaultsKey.dictationMouseButtons: "",
+        DefaultsKey.dictationMouseTriggersMigrated: false,
+        DefaultsKey.dictationMouseButton: -1,
+        DefaultsKey.dictationAutoSend: false,
+        DefaultsKey.dictationSoundStyle: "ready",
+        DefaultsKey.dictationSounds: true,
+        DefaultsKey.dictationMuteOutput: false,
+        DefaultsKey.dictationSoftwareBluetooth: false,
+        DefaultsKey.dictationLowerOutput: false,
+        DefaultsKey.dictationOutputLevel: 0.1,
+        DefaultsKey.dictationOutputFade: 0.3,
         DefaultsKey.micMuteShortcutEnabled: false,
         DefaultsKey.micMuteShortcut: GlobalShortcut.micMuteDefault.storageValue,
         DefaultsKey.quitAppsShortcutEnabled: false,

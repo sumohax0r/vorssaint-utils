@@ -18,6 +18,7 @@ final class QuickToolHotkey {
     /// hears about this hotkey coming and going.
     private var claimedKey: String?
     var onPress: (() -> Void)?
+    var onRelease: (() -> Void)?
 
     init(id: UInt32) {
         hotKeyID = id
@@ -75,8 +76,10 @@ final class QuickToolHotkey {
 
     private static func installSharedHandlerIfNeeded() {
         guard sharedHandler == nil else { return }
-        var spec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard),
-                                 eventKind: UInt32(kEventHotKeyPressed))
+        var specs = [
+            EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed)),
+            EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyReleased))
+        ]
         InstallEventHandler(GetEventDispatcherTarget(), { _, event, _ -> OSStatus in
             var id = EventHotKeyID()
             if let event {
@@ -87,8 +90,11 @@ final class QuickToolHotkey {
             guard id.signature == 0x5655_5154,
                   let instance = QuickToolHotkey.instances[id.id]
             else { return OSStatus(eventNotHandledErr) }
-            DispatchQueue.main.async { instance.onPress?() }
+            let released = event.map { GetEventKind($0) == UInt32(kEventHotKeyReleased) } ?? false
+            DispatchQueue.main.async {
+                if released { instance.onRelease?() } else { instance.onPress?() }
+            }
             return noErr
-        }, 1, &spec, nil, &sharedHandler)
+        }, specs.count, &specs, nil, &sharedHandler)
     }
 }

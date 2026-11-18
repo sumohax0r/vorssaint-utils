@@ -376,6 +376,7 @@ if (( TEST )); then
         Sources/Vorssaint/Core/CPUCoreStrings.swift
         Sources/Vorssaint/Core/MonitorLayoutStrings.swift
         Sources/Vorssaint/Core/KeepAwakeStrings.swift
+        Sources/Vorssaint/Core/DictationStrings.swift
         Sources/Vorssaint/Core/BluetoothSleepStrings.swift
         Sources/Vorssaint/Core/PermissionGuideStrings.swift
         Sources/Vorssaint/Core/FanControlStrings.swift
@@ -418,6 +419,7 @@ if (( TEST )); then
         Sources/Vorssaint/Services/Recorder/RecorderEditDocument.swift
         Sources/Vorssaint/Core/AppInfo.swift
         Sources/Vorssaint/Core/GlobalShortcut.swift
+        Sources/Vorssaint/Core/DictationShortcut.swift
         Sources/Vorssaint/Core/SymbolicHotKeys.swift
         Sources/Vorssaint/Services/SystemShortcutTakeoverSupport.swift
         Sources/Vorssaint/Core/Localization.swift
@@ -646,6 +648,14 @@ swiftc "${APP_OPTIMIZATION_FLAGS[@]}" -incremental -enable-batch-mode -j "$(sysc
     "${APP_SOURCES[@]}" "${GIF_CODEC_OBJECTS[@]}" -o "build/$EXECUTABLE"
 xcrun dyld_info -imports "build/$EXECUTABLE" | awk -f Tests/AudioTapImports.awk
 
+# Local prototype opt-in: keep the normal upstream build dependency-free.
+if [[ "${VORSSAINT_DICTATION_ENGINE:-0}" == "1" ]]; then
+    echo "▸ Building local dictation engine…"
+    swift build --package-path Tools/DictationEngine -c release
+    echo "▸ Preparing local Bark Clean runtime…"
+    bash Tools/BarkEngine/setup.sh
+fi
+
 echo "▸ Compiling protected fan helper…"
 swiftc -O -target "$TARGET" -sdk "$SDK" "${SDK_COMPAT_FLAGS[@]}" "${BUILD_VARIANT_FLAGS[@]}" \
     Sources/Vorssaint/Services/FanControl/FanControlSupport.swift \
@@ -748,6 +758,15 @@ FAN_HELPER_VERSION="$(
 /usr/libexec/PlistBuddy -c "Add :VorssaintFanControlHelperVersion string '$FAN_HELPER_VERSION'" \
     "$STAGE/Contents/Info.plist"
 printf 'APPL????' > "$STAGE/Contents/PkgInfo"
+cp -R Resources/DictationSounds "$STAGE/Contents/Resources/"
+cp Resources/DictationModels.json Resources/DictationLicenses.txt "$STAGE/Contents/Resources/"
+if [[ "${VORSSAINT_DICTATION_ENGINE:-0}" == "1" ]]; then
+    cp Tools/DictationEngine/.build/release/DictationEngine "$STAGE/Contents/MacOS/DictationEngine"
+    codesign --force --sign - "$STAGE/Contents/MacOS/DictationEngine"
+    mkdir -p "$STAGE/Contents/Resources/BarkEngine"
+    cp Tools/BarkEngine/*.py Tools/BarkEngine/NOTICE Tools/BarkEngine/requirements.txt "$STAGE/Contents/Resources/BarkEngine/"
+    cp build/BarkPythonPath.txt "$STAGE/Contents/Resources/"
+fi
 cp build/AppIcon.icns "$STAGE/Contents/Resources/AppIcon.icns"
 cp Sources/RecorderGIFCodec/vendor/cgif/LICENSE "$STAGE/Contents/Resources/cgif-LICENSE.txt"
 cp build/MenuBarIcon.png build/MenuBarIcon@2x.png build/BrandMark.png "$STAGE/Contents/Resources/"

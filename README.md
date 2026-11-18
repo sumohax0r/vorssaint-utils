@@ -181,6 +181,7 @@ Reorder or hide panel sections, choose a compact layout, and export settings to 
 
 ### Energy and display
 
+- **Local dictation prototype.** An optional developer build supports Parakeet v3 and Fluid Speech Mini, on-device transcription, a compact recording HUD, microphone selection and text insertion. See [local build instructions](Tools/DictationEngine/README.md). This local prototype is not part of the upstream release.
 - **Keep awake.** Keep your Mac working on a timer, with the lid closed, or while selected apps, power or external displays are present.
 - **Displays.** Control individual displays and brightness, with hardware control where supported, half or quarter steps for the brightness keys, optional extra dimming below a monitor's minimum, software dimming as a fallback, and the volume and mute of a monitor's built-in speakers.
 - **Extra brightness.** Use a MacBook Pro XDR display's HDR headroom to go beyond its normal maximum brightness.

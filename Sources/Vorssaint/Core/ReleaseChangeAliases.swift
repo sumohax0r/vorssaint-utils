@@ -104,6 +104,7 @@ enum ReleaseChangeAliases {
             "app's volume"]
         case .soundOutputSwitcher: return ["output switcher", "sound output switcher"]
         case .audioPriority: return ["audio device priority"]
+        case .dictation: return ["dictation", "speech to text", "parakeet"]
         case .micMute: return ["mute microphone", "mic mute", "microphone mute", "muting the microphone"]
         case .musicBlock: return ["music app blocker", "replacement for music", "music launch blocking",
             "music from opening", "unwanted music launches"]

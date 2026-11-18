@@ -29,6 +29,9 @@ struct QuickToolsSettings: View {
 
     var body: some View {
         Form {
+            if AppFeature.dictation.isAvailable {
+                DictationSettingsCard().settingsFormSectionAnchor(.dictation)
+            }
             if AppFeature.quickLauncher.isAvailable {
                 Section {
                     Button {

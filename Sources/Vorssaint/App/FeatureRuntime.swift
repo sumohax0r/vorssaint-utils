@@ -338,6 +338,7 @@ final class FeatureRuntime: ObservableObject {
             ScreenRecorderService.shared.syncWithPreferences()
             RecentCaptureService.shared.syncWithPreferences()
         },
+        .dictation: { DictationService.shared.syncWithPreferences() },
         .cameraPreview: { CameraPreviewService.shared.syncWithPreferences() },
         .wallpaper: { WallpaperService.shared.syncWithPreferences() },
         .radialMenu: { RadialMenuService.shared.syncWithPreferences() },

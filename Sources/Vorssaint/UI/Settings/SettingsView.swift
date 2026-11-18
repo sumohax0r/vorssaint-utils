@@ -610,7 +610,14 @@ struct SettingsView: View {
         case .appUpdates: AppUpdatesSettings()
         case .media: MediaSettings()
         case .clipboard: ClipboardSettings()
-        case .quickTools: QuickToolsSettings()
+        case .quickTools:
+            if router.destination.sectionAnchor == .dictation {
+                Form {
+                    DictationSettingsCard().settingsFormSectionAnchor(.dictation)
+                }.formStyle(.grouped)
+            } else {
+                QuickToolsSettings()
+            }
         case .screenshot: ScreenCaptureSettings()
         case .windowLayout: WindowLayoutSettings()
         case .shelf: ShelfSettings()

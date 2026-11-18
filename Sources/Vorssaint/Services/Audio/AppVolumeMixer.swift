@@ -107,6 +107,22 @@ final class AppVolumeMixer: ObservableObject {
     @Published private(set) var hiddenApps: [MixerHiddenApp] = []
 
     private var engines: [String: any GainEngine] = [:]
+    // Temporary software attenuation; never persists per-app slider values or routes.
+    private var dictationOutputGain: Float = 1
+    func setDictationOutputGain(_ gain: Float) {
+        guard Thread.isMainThread else { return }
+        let next = gain.isFinite ? min(1, max(0, gain)) : 1
+        guard next == 1 || AppFeature.mixer.isAvailable else { return }
+        guard next != dictationOutputGain else { return }
+        let starting = dictationOutputGain == 1 && next < 1
+        dictationOutputGain = next
+        for app in apps { applyRouting(for: app) }
+        if starting { refreshApps() }
+    }
+    private func renderingGain(for app: MixerApp) -> Float {
+        MixerRoutingSupport.gain(forVolume: app.volume) * dictationOutputGain
+    }
+
     /// Arbitrates the engine builds running off-main: it suppresses duplicate
     /// builds while a slider keeps dragging, and discards a build that lands
     /// after the mixer moved on (which would leave two live taps on one app).
@@ -300,6 +316,7 @@ final class AppVolumeMixer: ObservableObject {
     /// Tears every tap down so all apps return to untouched system output, and
     /// hands back the one system setting the mixer changes on its own.
     func stopAll() {
+        dictationOutputGain = 1
         stopped = true
         builds.invalidateAll()
         for engine in engines.values { engine.stop() }
@@ -1330,7 +1347,7 @@ final class AppVolumeMixer: ObservableObject {
            engine.tappedObjects == app.audioObjects,
            engine.outputDeviceUID == targetOutputDeviceUID,
            !engine.requiresRebuild {
-            engine.gain = MixerRoutingSupport.gain(forVolume: app.volume)
+            engine.gain = renderingGain(for: app)
             return
         }
         if let delay = configurationRepairDelay(for: app.id) {
@@ -1349,6 +1366,7 @@ final class AppVolumeMixer: ObservableObject {
         guard engineRecovery.allowsBuild(app.id, configuration: configuration) else { return }
         guard #available(macOS 14.4, *), let token = builds.begin(app.id) else { return }
 
+        let initialGain = renderingGain(for: app)
         if MixerRoutingSupport.isAirPlaySentinel(targetOutputDeviceUID) {
             // Without a listed Mac output to clock it, the engine would count
             // as gone on every pass. A device list without one is a passing
@@ -1369,7 +1387,7 @@ final class AppVolumeMixer: ObservableObject {
                 }
                 let engine = AirPlayGainEngine(appID: app.id,
                                                objects: app.audioObjects,
-                                               gain: MixerRoutingSupport.gain(forVolume: app.volume),
+                                               gain: initialGain,
                                                clockDeviceUID: clockUID)
                 if engine == nil {
                     AirPlayRouteManager.shared.stopIfIdle()
@@ -1387,7 +1405,7 @@ final class AppVolumeMixer: ObservableObject {
 
         buildQueue.async { [weak self] in
             let engine = TapGainEngine(objects: app.audioObjects,
-                                       gain: MixerRoutingSupport.gain(forVolume: app.volume),
+                                       gain: initialGain,
                                        outputDeviceUID: targetOutputDeviceUID)
             DispatchQueue.main.async {
                 guard let self else {
@@ -1466,7 +1484,7 @@ final class AppVolumeMixer: ObservableObject {
             applyRouting(for: latestApp)
             return
         }
-        engine.gain = MixerRoutingSupport.gain(forVolume: latestApp.volume)
+        engine.gain = renderingGain(for: latestApp)
         configurationRepairs.removeValue(forKey: id)
         let previous = engines.updateValue(engine, forKey: id)
         engineChangeAt[id] = CFAbsoluteTimeGetCurrent()
@@ -1522,6 +1540,7 @@ final class AppVolumeMixer: ObservableObject {
 
     private func rowMayBeTapped(_ app: MixerApp) -> Bool {
         guard !app.isBypassed else { return false }
+        if dictationOutputGain < 1, app.effectiveOutputDeviceUID != nil { return true }
         return MixerRoutingSupport.rowMayBeTapped(
             savedVolume: storedVolume(for: app.identity, saved: savedVolumes()),
             savedRouteUID: storedRoute(for: app.identity, saved: savedOutputDeviceUIDs()),
@@ -1531,6 +1550,7 @@ final class AppVolumeMixer: ObservableObject {
 
     private func appNeedsEngine(_ app: MixerApp) -> Bool {
         guard !app.isBypassed else { return false }
+        if dictationOutputGain < 1, !app.audioObjects.isEmpty, app.effectiveOutputDeviceUID != nil { return true }
         // A universal route and its effective output come from one snapshot.
         // The picker may already show the next successful choice, but that
         // must not dismantle this route before its replacement is ready.

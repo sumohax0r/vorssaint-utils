@@ -41,6 +41,7 @@ final class TransientPaste {
 
     @discardableResult
     func paste(_ text: String,
+               shouldPostShortcut: (() -> Bool)? = nil,
                willPostShortcut: (() -> Void)? = nil,
                didPostShortcut: (() -> Void)? = nil,
                didFail: (() -> Void)? = nil) -> Bool {
@@ -95,7 +96,8 @@ final class TransientPaste {
                     expectedChangeCount: changeCount,
                     willPost: willPostShortcut,
                     didPost: didPostShortcut,
-                    didFail: didFail
+                    didFail: didFail,
+                    shouldPost: shouldPostShortcut
                 ) {
                     self.isPerforming = false
                     self.scheduleRestore(snapshot: snapshot, changeCount: changeCount)
@@ -148,6 +150,7 @@ final class TransientPaste {
                                                        willPost: (() -> Void)?,
                                                        didPost: (() -> Void)?,
                                                        didFail: (() -> Void)?,
+                                                       shouldPost: (() -> Bool)? = nil,
                                                        completion: @escaping () -> Void) {
         let held = CGEventSource.flagsState(.combinedSessionState)
             .intersection([.maskCommand, .maskAlternate, .maskShift, .maskControl])
@@ -159,7 +162,7 @@ final class TransientPaste {
                 GeneralPasteboardAccess.shared.async({
                     NSPasteboard.general.changeCount == expectedChangeCount
                 }) { isCurrent in
-                    guard isCurrent else {
+                    guard isCurrent, shouldPost?() != false else {
                         didFail?()
                         completion()
                         return
@@ -182,6 +185,7 @@ final class TransientPaste {
                                            willPost: willPost,
                                            didPost: didPost,
                                            didFail: didFail,
+                                           shouldPost: shouldPost,
                                            completion: completion)
         }
     }

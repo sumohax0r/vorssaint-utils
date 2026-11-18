@@ -729,6 +729,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
     case recentCaptures
     case screenshotClipboard
     case cameraPreview
+    case dictation
     case radialMenu
     case scratchpad
     case snippetLibrary
@@ -767,6 +768,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .screenshotUpload: return DefaultsKey.screenshotUploadShortcut
         case .recentCaptures: return DefaultsKey.recentCapturesShortcut
         case .screenshotClipboard: return DefaultsKey.screenshotClipboardShortcut
+        case .dictation: return DefaultsKey.dictationShortcut
         case .cameraPreview: return DefaultsKey.cameraPreviewShortcut
         case .radialMenu: return DefaultsKey.radialMenuShortcut
         case .scratchpad: return DefaultsKey.scratchpadShortcut
@@ -806,6 +808,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .screenshotUpload: return .screenshotUploadDefault
         case .recentCaptures: return .recentCapturesDefault
         case .screenshotClipboard: return .screenshotClipboardDefault
+        case .dictation: return GlobalShortcut(keyCode: 2, modifiers: [.control, .option])
         case .cameraPreview: return .cameraPreviewDefault
         case .radialMenu: return .radialMenuDefault
         case .scratchpad: return .scratchpadDefault
@@ -822,7 +825,12 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
     }
 
     var savedShortcut: GlobalShortcut {
-        GlobalShortcut.saved(for: storageKey, fallback: defaultShortcut)
+        if self == .dictation {
+            let raw = UserDefaults.standard.string(forKey: storageKey) ?? ""
+            if let code = DictationShortcut.modifier(raw) { return GlobalShortcut(keyCode: code, modifiers: []) }
+            return GlobalShortcut(storageValue: raw, requiringModifier: false) ?? defaultShortcut
+        }
+        return GlobalShortcut.saved(for: storageKey, fallback: defaultShortcut)
     }
 
     static let clearedShortcutStorageValue = "none"
@@ -885,6 +893,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
             return FeatureStrings.recentCaptures(L10n.shared.language).title
         case .screenshotClipboard:
             return FeatureStrings.screenshot(L10n.shared.language).editClipboardImage
+        case .dictation: return DictationStrings.text("title")
         case .cameraPreview: return FeatureStrings.cameraPreview(L10n.shared.language).pageTitle
         case .radialMenu: return FeatureStrings.radialMenu(L10n.shared.language).pageTitle
         case .scratchpad: return FeatureStrings.scratchpad(L10n.shared.language).pageTitle
@@ -953,6 +962,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .screenshotUpload: return [DefaultsKey.screenshotUploadShortcutEnabled, DefaultsKey.screenshotSharingEnabled]
         case .recentCaptures: return [DefaultsKey.recentCapturesShortcutEnabled]
         case .screenshotClipboard: return [DefaultsKey.screenshotClipboardShortcutEnabled]
+        case .dictation: return [DefaultsKey.dictationEnabled]
         case .cameraPreview: return [DefaultsKey.cameraPreviewShortcutEnabled]
         case .radialMenu: return [DefaultsKey.radialMenuEnabled]
         case .scratchpad: return [DefaultsKey.scratchpadShortcutEnabled]
@@ -988,6 +998,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .screenshot, .screenshotScrolling, .screenshotFullScreen, .screenshotLastCapture, .recentCaptures,
              .screenshotClipboard, .screenshotUpload:
             return .screenshot
+        case .dictation: return .dictation
         case .cameraPreview: return .cameraPreview
         case .radialMenu: return .radialMenu
         case .scratchpad: return .scratchpad
