@@ -62,6 +62,7 @@ enum MixerUniversalRoutingContract {
         var currentOutputDeviceUID: String? = "speakers"
         var outputSwitchError: String?
         var apps: [MixerApp] = []
+        var dictationOutputGain: Float = 1
         var savedRoutes: [String: String] = [:]
         var volumes: [String: Double] = [:]
         var sessionRoutes: [String: String] = [:]
@@ -99,6 +100,7 @@ enum MixerUniversalRoutingContract {
             var app = row(id, persistenceID: id, selectedUID: "airpods")
             app.supportsVolumeOverride = MixerRoutingSupport.needsScreenSharingProtection(bundleIdentifier: id)
             app.isBypassed = MixerRoutingSupport.bypassesProcessTap(bundleIdentifier: id, name: "Call")
+            mixer.dictationOutputGain = 0.1
             // Old installations may already have a boost and a route saved.
             app.volume = 1.2
             mixer.apps = [app]
