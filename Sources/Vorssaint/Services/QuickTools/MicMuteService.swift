@@ -100,6 +100,7 @@ final class MicMuteService: ObservableObject {
             isMuted = false
         }
         syncListeners()
+        AirPodsMuteService.shared.sync()
     }
 
     /// The listeners exist to keep an active mute true while devices come and
@@ -123,11 +124,28 @@ final class MicMuteService: ObservableObject {
     }
 
     func suspend() {
+        AirPodsMuteService.shared.stop()
         hotkey.unregister()
     }
 
     func toggle() {
         setMuted(!isMuted)
+    }
+
+    /// Called on main by the AirPods callback; return the real hardware result.
+    func applyAirPodsMute(_ muted: Bool) -> Bool {
+        guard AppFeature.micMute.isAvailable,
+              UserDefaults.standard.bool(forKey: DefaultsKey.micMuteAirPodsEnabled),
+              SessionActivity.shared.isActive else { return false }
+        wantsMute = muted
+        inputVolumeLock.withLock {
+            inputVolumeBlocked = muted
+            inputVolumeLifetime = UUID()
+        }
+        applyGeneration += 1
+        let outcome = halQueue.sync { Self.sweep(muted: muted) }
+        finish(outcome, muted: muted, announce: true, generation: applyGeneration)
+        return outcome.applied && !outcome.failed
     }
 
     func setMuted(_ muted: Bool) {
@@ -252,6 +270,7 @@ final class MicMuteService: ObservableObject {
             if isMuted != muted { isMuted = muted }
             UserDefaults.standard.set(muted, forKey: DefaultsKey.micMuteActive)
             syncListeners()
+            AirPodsMuteService.shared.mirror(muted)
         } else {
             // Nothing was reached, so the request is dropped as it always was:
             // the published state stays what it is, and so does the wanted one.
