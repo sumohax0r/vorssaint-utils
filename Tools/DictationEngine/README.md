@@ -1,8 +1,8 @@
 # Local dictation prototype
 
-This branch is local work, separate from the ambient-light PR. No dictation proposal or code has been posted upstream.
+To package the release app with all supported local speech workers, run `VORSSAINT_DICTATION_ENGINE=1 ./build.sh` on your Apple Silicon Mac. The signed app is staged at `build/stage/Vorssaint.app`. The Bark and Phonon workers use the local Python 3.11 runtime prepared by the build.
 
-Build the developer app with the optional worker:
+To install a separate developer build:
 
 ```sh
 VORSSAINT_DICTATION_ENGINE=1 ./build.sh --dev --install

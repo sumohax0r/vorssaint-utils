@@ -39,10 +39,11 @@ enum ShortcutClearingTests {
     static var refuseRegistration = false
 
     static func GetEventDispatcherTarget() -> Int { 0 }
+    static func GetEventKind(_ event: Int) -> UInt32 { UInt32(event) }
     @discardableResult
     static func InstallEventHandler(_ target: Int,
                                    _ handler: @escaping (Int?, Int?, UnsafeMutableRawPointer?) -> OSStatus,
-                                   _ count: Int, _ spec: inout EventTypeSpec,
+                                   _ count: Int, _ specs: UnsafePointer<EventTypeSpec>,
                                    _ data: UnsafeMutableRawPointer?, _ ref: inout EventHandlerRef?) -> OSStatus {
         ref = 1
         return noErr
