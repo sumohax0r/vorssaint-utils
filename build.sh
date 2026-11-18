@@ -374,9 +374,9 @@ if (( TEST )); then
         Sources/Vorssaint/Core/SettingsPageStrings.swift
         Sources/Vorssaint/Core/BatteryTimeStrings.swift
         Sources/Vorssaint/Core/CPUCoreStrings.swift
+        Sources/Vorssaint/Core/DictationStrings.swift
         Sources/Vorssaint/Core/MonitorLayoutStrings.swift
         Sources/Vorssaint/Core/KeepAwakeStrings.swift
-        Sources/Vorssaint/Core/DictationStrings.swift
         Sources/Vorssaint/Core/BluetoothSleepStrings.swift
         Sources/Vorssaint/Core/PermissionGuideStrings.swift
         Sources/Vorssaint/Core/FanControlStrings.swift

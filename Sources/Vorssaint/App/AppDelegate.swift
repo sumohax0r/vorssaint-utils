@@ -330,9 +330,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSW
             BrightnessService.shared.restoreDisplaysBeforeTermination()
         }
         ExtraBrightnessService.shared.stop()
-        if AppFeature.dictation.isAvailable { DictationService.shared.stop() }
         ProcessUsageService.shared.stopNetworkMonitoring(force: true)
         URLCleanerService.shared.stop()
+        if AppFeature.dictation.isAvailable { DictationService.shared.stop() }
         FocusFollowsMouseService.shared.stop()
         WindowMaximizer.shared.stop()
         WindowLayoutService.shared.suspend()
