@@ -93,12 +93,12 @@ struct DictationResourceUsageView: View {
     }
     private func memory(_ bytes: UInt64?) -> String {
         guard let bytes else { return "—" }
-        return String(format: "%.1f MiB", Double(bytes) / 1_048_576)
+        return String(format: "%.1f MiB", locale: Locale.current, Double(bytes) / 1_048_576)
     }
     private func disk(_ bytes: Int64?) -> String {
         bytes.map { ByteCountFormatter.string(fromByteCount: $0, countStyle: .file) } ?? "—"
     }
-    private func cpu(_ value: Double?) -> String { value.map { String(format: "%.1f%%", $0) } ?? "—" }
+    private func cpu(_ value: Double?) -> String { value.map { String(format: "%.1f%%", locale: Locale.current, $0) } ?? "—" }
     private func refresh() {
         let nextApp = Self.sample(getpid())
         appCPU = Self.cpuDelta(app, nextApp); app = nextApp

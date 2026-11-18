@@ -122,6 +122,8 @@ struct GlobalShortcut: Equatable, Hashable {
 
     static let keepAwakeDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_K),
                                                  modifiers: [.control, .option, .command])
+    static let dictationDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_D),
+                                                 modifiers: [.control, .option, .shift])
     static let shelfDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_D),
                                              modifiers: [.control, .option, .command])
     static let switcherDefault = GlobalShortcut(keyCode: Int64(kVK_Tab),
@@ -808,7 +810,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .screenshotUpload: return .screenshotUploadDefault
         case .recentCaptures: return .recentCapturesDefault
         case .screenshotClipboard: return .screenshotClipboardDefault
-        case .dictation: return GlobalShortcut(keyCode: 2, modifiers: [.control, .option])
+        case .dictation: return .dictationDefault
         case .cameraPreview: return .cameraPreviewDefault
         case .radialMenu: return .radialMenuDefault
         case .scratchpad: return .scratchpadDefault

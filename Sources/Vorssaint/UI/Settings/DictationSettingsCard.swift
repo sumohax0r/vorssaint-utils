@@ -114,7 +114,9 @@ struct DictationSettingsCard: View {
                         else if service.state != .downloading { Button(t("download"), action: service.download) }
                         Link(t("license"), destination: URL(string: "https://huggingface.co/\(selected.repo)")!)
                     } label: { Image(systemName: "ellipsis.circle") }
-                    .menuStyle(.borderlessButton).fixedSize().help("Manage model")
+                    .menuStyle(.borderlessButton)
+                    .fixedSize()
+                    .help("Manage model")
                 }
             }
             if service.state == .downloading {
@@ -233,7 +235,7 @@ struct DictationSettingsCard: View {
                     HStack {
                         Text("Fade in and out")
                         Spacer()
-                        Text(String(format: "%.1f s", outputFade)).monospacedDigit()
+                        Text(String(format: "%.1f s", locale: Locale.current, outputFade)).monospacedDigit()
                     }
                     Slider(value: $outputFade, in: 0...3, step: 0.1)
                         .accessibilityLabel("Fade duration")

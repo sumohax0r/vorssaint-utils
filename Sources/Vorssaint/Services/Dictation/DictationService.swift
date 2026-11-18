@@ -92,7 +92,7 @@ final class DictationService: ObservableObject, @unchecked Sendable {
         DictationShortcut.migrate()
         let preferences = UserDefaults.standard
         let rawShortcut = preferences.string(forKey: DefaultsKey.dictationShortcut) ?? ""
-        let shortcut = GlobalShortcut(storageValue: rawShortcut, requiringModifier: false) ?? GlobalShortcut(keyCode: 2, modifiers: [.control, .option])
+        let shortcut = GlobalShortcut(storageValue: rawShortcut, requiringModifier: false) ?? .dictationDefault
         if !hotkey.sync(enabled: DictationShortcut.modifier(rawShortcut) == nil, shortcut: shortcut, storageKey: DefaultsKey.dictationShortcut) { message = DictationStrings.text("shortcutFailed") }
         syncMouse()
         if observers.isEmpty {

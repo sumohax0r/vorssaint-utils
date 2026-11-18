@@ -5,7 +5,7 @@ import SwiftUI
 struct DictationShortcutRow: View {
     var isEnabled = true
     var onChange: () -> Void = { DictationService.shared.syncWithPreferences() }
-    @AppStorage(DefaultsKey.dictationShortcut) private var raw = "control+option:2"
+    @AppStorage(DefaultsKey.dictationShortcut) private var raw = GlobalShortcut.dictationDefault.storageValue
     @State private var error: String?
     @State private var recording = false
     private var shortcut: GlobalShortcut {

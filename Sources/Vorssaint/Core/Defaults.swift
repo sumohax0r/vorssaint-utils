@@ -1895,7 +1895,7 @@ enum Defaults {
         DefaultsKey.dictationMicrophone: "",
         DefaultsKey.dictationKeepReady: false,
         DefaultsKey.dictationRecordingLimitMinutes: 5,
-        DefaultsKey.dictationShortcut: "control+option:2",
+        DefaultsKey.dictationShortcut: GlobalShortcut.dictationDefault.storageValue,
         DefaultsKey.dictationToggleMode: false,
         DefaultsKey.dictationRightControl: false,
         DefaultsKey.dictationMouseButtons: "",
