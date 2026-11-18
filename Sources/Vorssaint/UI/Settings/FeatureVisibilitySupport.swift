@@ -53,6 +53,7 @@ enum SettingsSectionAnchor: String, CaseIterable, Hashable {
     case screenOCR
     case micMute
     case cameraPreview
+    case dictation
     case wallpaper
     case scratchpad
     case cleaningMode
@@ -75,7 +76,7 @@ enum SettingsSectionAnchor: String, CaseIterable, Hashable {
         case .dock, .dockClick, .spacesOrder: return .dock
         case .finderCutPaste, .finderRename: return .cutPaste
         case .clipboardHistory, .pastePlain: return .clipboard
-        case .quickLauncher, .quickToggles, .quitApps, .micMute, .cameraPreview, .wallpaper, .scratchpad,
+        case .quickLauncher, .quickToggles, .quitApps, .micMute, .dictation, .cameraPreview, .wallpaper, .scratchpad,
              .cleaningMode:
             return .quickTools
         case .screenshot, .screenshotScrolling, .screenRecorder, .colorPicker, .screenOCR:
@@ -413,6 +414,7 @@ extension AppFeature {
         case .appUpdates: return FeatureSettingsDestination(.appUpdates)
         case .screenshot:
             return FeatureSettingsDestination(.screenshot, sectionAnchor: .screenshot)
+        case .dictation: return FeatureSettingsDestination(.quickTools, sectionAnchor: .dictation)
         case .cameraPreview:
             return FeatureSettingsDestination(.quickTools, sectionAnchor: .cameraPreview)
         case .wallpaper:
@@ -469,7 +471,7 @@ enum FeatureVisibilitySupport {
         case .cutPaste: return [.finderCutPaste, .finderRename]
         case .shelf: return [.shelf]
         case .media: return [.mediaTools]
-        case .quickTools: return [.quickLauncher, .quickToggles, .quitApps, .micMute,
+        case .quickTools: return [.quickLauncher, .quickToggles, .quitApps, .micMute, .dictation,
                                   .cameraPreview, .wallpaper, .scratchpad, .cleaningMode]
         case .urlCleaner: return [.urlCleaner]
         case .cleaner: return [.cleaner]

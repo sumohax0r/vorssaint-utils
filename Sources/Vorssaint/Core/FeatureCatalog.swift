@@ -22,6 +22,7 @@ enum AppFeature: String, CaseIterable {
     case clipboardHistory, pastePlain, finderCutPaste, finderRename, shelf, urlCleaner,
          diskImageInstaller
     // Sound
+    case dictation
     case mixer, soundOutputSwitcher, audioPriority, micMute, musicBlock
     // Energy and display
     case keepAwake, brightness, extraBrightness, bluetoothSleep
@@ -109,7 +110,7 @@ extension AppFeature {
         case .clipboardHistory, .pastePlain, .finderCutPaste, .finderRename, .shelf, .urlCleaner,
              .diskImageInstaller:
             return .clipboardFiles
-        case .mixer, .soundOutputSwitcher, .audioPriority, .micMute, .musicBlock:
+        case .mixer, .soundOutputSwitcher, .audioPriority, .micMute, .musicBlock, .dictation:
             return .sound
         case .keepAwake, .brightness, .extraBrightness, .bluetoothSleep:
             return .energyDisplay
@@ -165,6 +166,7 @@ extension AppFeature {
         case .mixer: return "speaker.wave.2"
         case .soundOutputSwitcher: return "hifispeaker"
         case .audioPriority: return "list.number"
+        case .dictation: return "waveform"
         case .micMute: return "mic.slash"
         case .musicBlock: return "music.note"
         case .keepAwake: return "moon.zzz.fill"
@@ -286,6 +288,7 @@ extension AppFeature {
         case .soundOutputSwitcher: return [DefaultsKey.soundOutputSwitcherEnabled]
         case .audioPriority: return [DefaultsKey.audioPriorityOutputEnabled,
                                      DefaultsKey.audioPriorityInputEnabled]
+        case .dictation: return [DefaultsKey.dictationEnabled]
         case .musicBlock: return [DefaultsKey.musicBlockEnabled]
         case .brightness: return [DefaultsKey.brightnessControlEnabled]
         case .extraBrightness: return [DefaultsKey.extraBrightnessEnabled]
@@ -375,6 +378,7 @@ extension AppFeature {
         // Microphone access stays contextual, and Accessibility only keeps
         // typing timing.
         case .screenRecorder: return [.screenRecording, .accessibility, .audioCapture, .microphone]
+        case .dictation: return [.microphone, .accessibility]
         case .cameraPreview: return [.camera]
         case .keepAwake: return [.accessibility]
         case .brightness: return [.accessibility]
@@ -490,6 +494,8 @@ extension AppFeature {
              .monitorCPU, .monitorGPU, .monitorMemory, .monitorNetwork, .monitorDisk, .monitorPower,
              .connectedDevices:
             return true
+        case .dictation:
+            return false
         case .focusFollowsMouse, .scrollHorizontal, .scrollZoom, .linearScroll, .scrollSpeed, .diskImageInstaller, .audioPriority,
              .wallpaper, .killProcess, .portManager, .fanControl, .notchMascot, .spacesOrder, .quitApps:
             return false

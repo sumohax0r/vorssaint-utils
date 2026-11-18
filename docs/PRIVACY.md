@@ -98,3 +98,9 @@ This page describes how the current version of Vorssaint behaves. If the app's b
 ## Questions
 
 If anything here is unclear, open a question in [GitHub issues](https://github.com/vorssaint/vorssaint-utils/issues), or have a look at [support](../SUPPORT.md).
+
+## Local dictation prototype
+
+The optional dictation build downloads the selected speech model from Hugging Face only when requested. Hugging Face receives the normal download request metadata, including IP address; audio is never sent with those requests. Transcription runs in a local helper process. Temporary audio snapshots are removed after completion or cancellation; a process crash can leave files in the macOS temporary directory. The last transcript stays in memory until dictation is disabled or the app exits. No dictation history is saved. An explicit Copy action writes the transcript to the clipboard; automatic insertion temporarily uses the clipboard and restores its previous contents unless the user changes it.
+
+Keep microphone ready is off by default. Enabling it keeps the microphone open while dictation is ready, discarding audio outside an active recording. Microphone and model resources are released when disabled, sleeping, or in an inactive session. Preferences are included in settings backups; downloaded model files and audio are not.

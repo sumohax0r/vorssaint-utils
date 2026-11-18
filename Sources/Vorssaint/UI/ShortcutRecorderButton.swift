@@ -28,6 +28,7 @@ struct ShortcutRecorderButton: NSViewRepresentable {
     var captureWithFlagsAction: ((GlobalShortcut, CGEventFlags) -> Void)? = nil
     /// Only hold-trigger fields opt into recording a chord without a key.
     var captureModifiersAction: ((GlobalShortcutModifiers) -> Void)? = nil
+    var capturePhysicalModifierAction: ((Int64) -> Void)? = nil
     let invalidAction: () -> Void
     let captureAction: (GlobalShortcut) -> Void
 
@@ -81,6 +82,7 @@ struct ShortcutRecorderButton: NSViewRepresentable {
         button.recordingChanged = recordingChanged
         button.captureWithFlagsAction = captureWithFlagsAction
         button.captureModifiersAction = captureModifiersAction
+        button.capturePhysicalModifierAction = capturePhysicalModifierAction
         button.invalidAction = invalidAction
         button.captureAction = captureAction
         button.isEnabled = isEnabled
@@ -98,6 +100,8 @@ final class RecorderButton: NSButton {
     var recordingChanged: ((Bool) -> Void)?
     var captureWithFlagsAction: ((GlobalShortcut, CGEventFlags) -> Void)?
     var captureModifiersAction: ((GlobalShortcutModifiers) -> Void)?
+    var capturePhysicalModifierAction: ((Int64) -> Void)?
+    private var physicalModifier: Int64?
     private var modifierRecording = ModifierShortcutRecording()
     var invalidAction: (() -> Void)?
     var captureAction: ((GlobalShortcut) -> Void)?
@@ -139,6 +143,7 @@ final class RecorderButton: NSButton {
         isRecording = true
         awaitingKeyForHeldModifiers = false
         modifierRecording = ModifierShortcutRecording()
+        physicalModifier = nil
         ShortcutCapture.begin()
         // The tap keeps the typed combination to the field: without it, a
         // combination the system or another app answers to performs that
@@ -196,6 +201,17 @@ final class RecorderButton: NSButton {
             return
         }
         let modifiers = GlobalShortcutModifiers(eventFlags: event.modifierFlags)
+        if let capturePhysicalModifierAction {
+            let code = Int64(event.keyCode), flags = UInt64(event.modifierFlags.rawValue)
+            if DictationShortcut.isDown(code, flags: flags) {
+                physicalModifier = DictationShortcut.isSolo(code, flags: flags) ? code : nil
+            } else if physicalModifier == code {
+                physicalModifier = nil
+                stopRecording()
+                capturePhysicalModifierAction(code)
+            }
+            return
+        }
         if let captureModifiersAction {
             let unsupported = event.modifierFlags.contains(.function)
             let captured = modifierRecording.flagsChanged(modifiers, hasUnsupportedModifier: unsupported)
@@ -244,12 +260,14 @@ final class RecorderButton: NSButton {
         // A key arrived, so the modifiers being held did produce something.
         awaitingKeyForHeldModifiers = false
         modifierRecording.keyPressed()
+        physicalModifier = nil
 
         if keyCode == Int64(kVK_Escape), !modifiers.hasPrimaryModifier {
             stopRecording()
             return
         }
-        if GlobalShortcut.clearsShortcut(keyCode: keyCode, modifiers: modifiers) {
+        if GlobalShortcut.clearsShortcut(keyCode: keyCode, modifiers: modifiers),
+           clearAction != nil || capturePhysicalModifierAction == nil {
             guard let clearAction else { return }
             stopRecording()
             clearAction()
@@ -355,6 +373,9 @@ struct ShortcutPreferenceRow: View {
     }
 
     var body: some View {
+        if role == .dictation {
+            DictationShortcutRow(isEnabled: isEnabled, onChange: onChange)
+        } else {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .top, spacing: 8) {
                 ShortcutRowLabel(title: label ?? l10n.s.shelfHotkeyLabel,
@@ -439,6 +460,7 @@ struct ShortcutPreferenceRow: View {
             }
         }
         .onChange(of: l10n.language) { _, _ in errorText = nil }
+            }
     }
 
     private var shortcut: GlobalShortcut {

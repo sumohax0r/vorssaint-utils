@@ -1,0 +1,324 @@
+[
+  {
+    "id": "fluid",
+    "repo": "FluidVoice-Labs/fluid-speech-mini-coreml",
+    "revision": "d81c3160dfe5a5e1f8f7267164a07d30617a3a1a",
+    "files": [
+      {
+        "path": "Decoder.mlmodelc/analytics/coremldata.bin",
+        "destination": "Decoder.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "d4beee43a6eab29b2adcc298f2e8582e8fb79d5fe3aa9f1ab692ade681ca369d"
+      },
+      {
+        "path": "Decoder.mlmodelc/coremldata.bin",
+        "destination": "Decoder.mlmodelc/coremldata.bin",
+        "size": 491,
+        "sha256": "6094d06d05c1ca4599c7b13c9a4ca7c00826ee2396796cf3084ce602a9884468"
+      },
+      {
+        "path": "Decoder.mlmodelc/metadata.json",
+        "destination": "Decoder.mlmodelc/metadata.json",
+        "size": 3373,
+        "sha256": null
+      },
+      {
+        "path": "Decoder.mlmodelc/model.mil",
+        "destination": "Decoder.mlmodelc/model.mil",
+        "size": 13411,
+        "sha256": null
+      },
+      {
+        "path": "Decoder.mlmodelc/weights/weight.bin",
+        "destination": "Decoder.mlmodelc/weights/weight.bin",
+        "size": 11845120,
+        "sha256": "d173e381488d07fd7648e2ccecbfb1bceff0457d75461550b26ba7fa2d23309a"
+      },
+      {
+        "path": "Encoder.mlmodelc/analytics/coremldata.bin",
+        "destination": "Encoder.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "3a3caa2c6aec983d94a5659eff09a00f77077147ea6726b8ddfdf022f0238ce9"
+      },
+      {
+        "path": "Encoder.mlmodelc/coremldata.bin",
+        "destination": "Encoder.mlmodelc/coremldata.bin",
+        "size": 427,
+        "sha256": "494d8e2ce30b37bcdf494b3ba7ddf6e1bc921b9a59e369a9efd44d013ca3bf7d"
+      },
+      {
+        "path": "Encoder.mlmodelc/metadata.json",
+        "destination": "Encoder.mlmodelc/metadata.json",
+        "size": 2906,
+        "sha256": null
+      },
+      {
+        "path": "Encoder.mlmodelc/model.mil",
+        "destination": "Encoder.mlmodelc/model.mil",
+        "size": 712643,
+        "sha256": null
+      },
+      {
+        "path": "Encoder.mlmodelc/weights/weight.bin",
+        "destination": "Encoder.mlmodelc/weights/weight.bin",
+        "size": 233096704,
+        "sha256": "cf0b61022de8c698984a8c7185c2d093fa744694621881ff062c46fee2546131"
+      },
+      {
+        "path": "JointDecision.mlmodelc/analytics/coremldata.bin",
+        "destination": "JointDecisionv3.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "9e767d69e1092b27b28d9f236b9cbcded58ff3891e320cba7855e2c24e803d69"
+      },
+      {
+        "path": "JointDecision.mlmodelc/coremldata.bin",
+        "destination": "JointDecisionv3.mlmodelc/coremldata.bin",
+        "size": 462,
+        "sha256": "284b235c08cd4769202af017f854deace69c0209c29f2253a2073bb68d58d38d"
+      },
+      {
+        "path": "JointDecision.mlmodelc/metadata.json",
+        "destination": "JointDecisionv3.mlmodelc/metadata.json",
+        "size": 2790,
+        "sha256": null
+      },
+      {
+        "path": "JointDecision.mlmodelc/model.mil",
+        "destination": "JointDecisionv3.mlmodelc/model.mil",
+        "size": 7547,
+        "sha256": null
+      },
+      {
+        "path": "JointDecision.mlmodelc/weights/weight.bin",
+        "destination": "JointDecisionv3.mlmodelc/weights/weight.bin",
+        "size": 6350284,
+        "sha256": "f991f65979c1b3fee3db39a645aa87e6bef1a304ed1816d074b17479bea797fc"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+        "destination": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "c9beeb989c8d66f8be11df59bc6df277ec76cee404f6865b46243835ef562f6d"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/coremldata.bin",
+        "destination": "Preprocessor.mlmodelc/coremldata.bin",
+        "size": 486,
+        "sha256": "dbde3f2300842c1fd51ef3ff948a0bcffe65ffd2dca10707f2509f32c1d65b1d"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/metadata.json",
+        "destination": "Preprocessor.mlmodelc/metadata.json",
+        "size": 2841,
+        "sha256": null
+      },
+      {
+        "path": "Preprocessor.mlmodelc/model.mil",
+        "destination": "Preprocessor.mlmodelc/model.mil",
+        "size": 28181,
+        "sha256": null
+      },
+      {
+        "path": "Preprocessor.mlmodelc/weights/weight.bin",
+        "destination": "Preprocessor.mlmodelc/weights/weight.bin",
+        "size": 491072,
+        "sha256": "129b76e3aeafa8afa3ea76d995b964b145fe83700d579f6ff42c4c38fa0968ea"
+      },
+      {
+        "path": "parakeet_v3_vocab.json",
+        "destination": "parakeet_vocab.json",
+        "size": 151122,
+        "sha256": null
+      }
+    ]
+  },
+  {
+    "id": "parakeet",
+    "repo": "FluidInference/parakeet-tdt-0.6b-v3-coreml",
+    "revision": "7dd20fe6b1797d35f5e3307e8b1732d9a178edfe",
+    "files": [
+      {
+        "path": "Decoder.mlmodelc/analytics/coremldata.bin",
+        "destination": "Decoder.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "4238c4e81ecd0dc94bd7dfbb60f7e2cc824107c1ffe0387b8607b72833dba350"
+      },
+      {
+        "path": "Decoder.mlmodelc/coremldata.bin",
+        "destination": "Decoder.mlmodelc/coremldata.bin",
+        "size": 554,
+        "sha256": "18647af085d87bd8f3121c8a9b4d4564c1ede038dab63d295b4e745cf2d7fb99"
+      },
+      {
+        "path": "Decoder.mlmodelc/metadata.json",
+        "destination": "Decoder.mlmodelc/metadata.json",
+        "size": 3427,
+        "sha256": null
+      },
+      {
+        "path": "Decoder.mlmodelc/model.mil",
+        "destination": "Decoder.mlmodelc/model.mil",
+        "size": 13110,
+        "sha256": null
+      },
+      {
+        "path": "Decoder.mlmodelc/weights/weight.bin",
+        "destination": "Decoder.mlmodelc/weights/weight.bin",
+        "size": 23604992,
+        "sha256": "48adf0f0d47c406c8253d4f7fef967436a39da14f5a65e66d5a4b407be355d41"
+      },
+      {
+        "path": "Encoder.mlmodelc/analytics/coremldata.bin",
+        "destination": "Encoder.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105"
+      },
+      {
+        "path": "Encoder.mlmodelc/coremldata.bin",
+        "destination": "Encoder.mlmodelc/coremldata.bin",
+        "size": 485,
+        "sha256": "d48034a167a82e88fc3df64f60af963ab3983538271175b8319e7d5720a0fb86"
+      },
+      {
+        "path": "Encoder.mlmodelc/metadata.json",
+        "destination": "Encoder.mlmodelc/metadata.json",
+        "size": 2921,
+        "sha256": null
+      },
+      {
+        "path": "Encoder.mlmodelc/model.mil",
+        "destination": "Encoder.mlmodelc/model.mil",
+        "size": 959769,
+        "sha256": null
+      },
+      {
+        "path": "Encoder.mlmodelc/weights/weight.bin",
+        "destination": "Encoder.mlmodelc/weights/weight.bin",
+        "size": 445187200,
+        "sha256": "e2020f323703477a5b21d7c2d282c403e371afb5962e79877e3033e73ba6f421"
+      },
+      {
+        "path": "JointDecisionv3.mlmodelc/analytics/coremldata.bin",
+        "destination": "JointDecisionv3.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "26def4bf73dd56d29dee21c8ef97cb8969e62f6120ed1adc91e46828e2737b6c"
+      },
+      {
+        "path": "JointDecisionv3.mlmodelc/coremldata.bin",
+        "destination": "JointDecisionv3.mlmodelc/coremldata.bin",
+        "size": 521,
+        "sha256": "f5fc08b741400f0088492c9e839418b1e18522f19cba28d361dd030c5f398342"
+      },
+      {
+        "path": "JointDecisionv3.mlmodelc/metadata.json",
+        "destination": "JointDecisionv3.mlmodelc/metadata.json",
+        "size": 3453,
+        "sha256": null
+      },
+      {
+        "path": "JointDecisionv3.mlmodelc/model.mil",
+        "destination": "JointDecisionv3.mlmodelc/model.mil",
+        "size": 11775,
+        "sha256": null
+      },
+      {
+        "path": "JointDecisionv3.mlmodelc/weights/weight.bin",
+        "destination": "JointDecisionv3.mlmodelc/weights/weight.bin",
+        "size": 12642764,
+        "sha256": "4e0e63d840032f7f07ddb1d64446051166281e5491bf22da8a945c41f6eedb3e"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+        "destination": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+        "size": 243,
+        "sha256": "c9beeb989c8d66f8be11df59bc6df277ec76cee404f6865b46243835ef562f6d"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/coremldata.bin",
+        "destination": "Preprocessor.mlmodelc/coremldata.bin",
+        "size": 486,
+        "sha256": "dbde3f2300842c1fd51ef3ff948a0bcffe65ffd2dca10707f2509f32c1d65b1d"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/metadata.json",
+        "destination": "Preprocessor.mlmodelc/metadata.json",
+        "size": 2841,
+        "sha256": null
+      },
+      {
+        "path": "Preprocessor.mlmodelc/model.mil",
+        "destination": "Preprocessor.mlmodelc/model.mil",
+        "size": 28181,
+        "sha256": null
+      },
+      {
+        "path": "Preprocessor.mlmodelc/weights/weight.bin",
+        "destination": "Preprocessor.mlmodelc/weights/weight.bin",
+        "size": 491072,
+        "sha256": "129b76e3aeafa8afa3ea76d995b964b145fe83700d579f6ff42c4c38fa0968ea"
+      },
+      {
+        "path": "parakeet_v3_vocab.json",
+        "destination": "parakeet_vocab.json",
+        "size": 151122,
+        "sha256": null
+      }
+    ]
+  },
+  {
+    "id": "bark-clean",
+    "repo": "ConwayResearch/Underdog-Bark-3.0-Clean",
+    "revision": "6d34ed8639b2b9a33e764acf06748519bbb950cf",
+    "files": [
+      {
+        "path": "NOTICE",
+        "destination": "NOTICE",
+        "size": 615,
+        "sha256": "4e627d41fa10efedd84a7dbb915711b0b73c904af1fee8bacdd4a2387bcc5a10"
+      },
+      {
+        "path": "mlx/config.json",
+        "destination": "mlx/config.json",
+        "size": 237042,
+        "sha256": "86efced0e9b34101990175e6e94f0d34a3ba251bb4f1a86a1e77b9ce77e26eee"
+      },
+      {
+        "path": "mlx/tokenizer.model",
+        "destination": "mlx/tokenizer.model",
+        "size": 360621,
+        "sha256": "5f16692abe03349cab19d6b878b2a3ab1249183586363d1625b5b6f163596d18"
+      },
+      {
+        "path": "mlx/tokenizer.vocab",
+        "destination": "mlx/tokenizer.vocab",
+        "size": 101024,
+        "sha256": "41130ff456706304a1adec782ccc9e003c4d417e8e324353d281be958cac4e17"
+      },
+      {
+        "path": "mlx/vocab.txt",
+        "destination": "mlx/vocab.txt",
+        "size": 46772,
+        "sha256": "3cde1409fd78783a79b29ed4d32da57c746993856f7c8263bcb905d2e5839db7"
+      },
+      {
+        "path": "model.bark",
+        "destination": "model.bark",
+        "size": 179458613,
+        "sha256": "b67ca90d94b79a36af4616f1cb3f241884925de7aa9f3e673a8d5c6c4cfd3436"
+      }
+    ]
+  },
+  {
+    "id": "phonon-english",
+    "repo": "FermionResearch/Phonon-2.5-English",
+    "revision": "12f7f10c79f324d1454776c7bb63a7cdbb8ac548",
+    "files": [
+      {
+        "path": "phonon-2.5-en.bps.tar.zst",
+        "destination": "phonon-2.5-en.bps.tar.zst",
+        "size": 163693770,
+        "sha256": "6bd8119ac5a637e5ece0666f5c1e43dbcd99e1c36b3d0ef3ec5f9b58260a9dd4"
+      }
+    ]
+  }
+]

@@ -573,6 +573,7 @@ enum SettingsDirectory {
                 SettingsDirectoryItem(page: .quickTools, title: s.quickToolsTab, icon: "wand.and.rays",
                                        featureKeywords: [
                                         (.quickLauncher, [s.launcherName]),
+                                        (.dictation, [DictationStrings.text("title"), "parakeet", "speech", "Fluid Speech Mini"]),
                                         (.micMute, [s.micMuteName, s.micMuteMenuBarToggle]),
                                         (.quickToggles, [FeatureStrings.quickToggles(language).pageTitle,
                                                          FeatureStrings.quickToggles(language)

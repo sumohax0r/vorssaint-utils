@@ -798,7 +798,11 @@ enum MixerFeatureTests {
                      && mixerCode.contains("let currentGain = box.value * ramp.next(toward: compensation.value, hostTime: now.pointee.mHostTime)")
                      && mixerCode.components(separatedBy: "let ramp = TapLevelRamp()").count == 3,
                      "both engines give back the level the tap's mixdown took, eased")
-        suite.expect(mixerCode.components(separatedBy: "MixerRoutingSupport.gain(forVolume:").count == 5
+        suite.expect(mixerCode.contains("MixerRoutingSupport.gain(forVolume: app.volume) * dictationOutputGain")
+                     && mixerCode.contains("let initialGain = renderingGain(for: app)")
+                     && mixerCode.components(separatedBy: "gain: initialGain,").count == 3
+                     && mixerCode.contains("engine.gain = renderingGain(for: app)")
+                     && mixerCode.contains("engine.gain = renderingGain(for: latestApp)")
                      && !mixerCode.contains("Float(app.volume)")
                      && !mixerCode.contains("Float(latestApp.volume)"),
                      "every engine plays an app's slider through the same loudness curve")
